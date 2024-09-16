@@ -8,7 +8,7 @@ Desenvolver um guia prático para criação e configuração de recursos na clou
 Para solucionar a atividade é necessário criar e configurar outros recursos da AWS, a fim de viabilizar sua comunicação externa e o seu uso como servidor. Especificamente: VPC, sub-rede, tabela de rotas e internet gateway. 
 A opção foi criar e configurar esses recursos antes atender aos demais requisitos. Vejamos:
 
-**VPC**
+**VPC** ☁️
 
 - No painel VPC da AWS, clicar em **“Suas VPCs”** no menu lateral esquerdo
 - Em seguida, clicar no botão **“criar VPC”**
@@ -52,7 +52,7 @@ A opção foi criar e configurar esses recursos antes atender aos demais requisi
 ---
 ## Resolução da Atividade AWS
 
-### Gerar uma chave pública de acesso na AWS e anexá-la à uma nova instância EC2.
+### Gerar uma chave pública de acesso na AWS e anexá-la à uma nova instância EC2. 🔑
 
 -	No painel EC2 da AWS, clicar em **"Pares de chaves"** no menu lateral esquerdo
 -	Em seguida, clicar em **"Criar par de chaves"**
@@ -60,7 +60,7 @@ A opção foi criar e configurar esses recursos antes atender aos demais requisi
 -	selecionar o formato do arquivo e clicar em **"Criar par de chaves"**
 -	salvar o arquivo gerado.
 
-### Criar 1 instância EC2 com o sistema operacional Amazon Linux 2 (Família t3.small, 16 GB SSD) e configurar as regras de segurança
+### Criar 1 instância EC2 com o sistema operacional Amazon Linux 2 (Família t3.small, 16 GB SSD) e configurar as regras de segurança 🖥️
 
 - No painel EC2 da AWS, clicar em **"Instâncias"** no menu lateral esquerdo
 -	Em seguida, clicar no botão **"Executar instâncias"**
@@ -77,11 +77,11 @@ A opção foi criar e configurar esses recursos antes atender aos demais requisi
     Tipo | Protocolo | Intervalo de portas | Origem | 
     ---|---|---|---|
     SSH | TCP | 22 | 0.0.0.0/0 | 
-    TCP personalizado | TCP | 80 | 0.0.0.0/0 | 
-    TCP personalizado | TCP | 443 | 0.0.0.0/0 |
+    HTTP | TCP | 80 | 0.0.0.0/0 | 
+    HTTPS | TCP | 443 | 0.0.0.0/0 |
     TCP personalizado | TCP | 111 | 0.0.0.0/0 |
     UDP personalizado | UDP | 111 | 0.0.0.0/0 | 
-    TCP personalizado | TCP | 2049 | 0.0.0.0/0 |
+    NFS		      | TCP | 2049 | 0.0.0.0/0 |
     UDP personalizado | UDP | 2049 | 0.0.0.0/0 | 
 
 -	Alocar **16 GB** de armazenamento gp2 (SSD)
@@ -165,10 +165,20 @@ A opção foi criar e configurar esses recursos antes atender aos demais requisi
 
 - Editar o crontab com `crontab -e`
 - No arquivo, adicionar o seguinte texto para agendar a execução a cada 5 minutos: `*/5 * * * * /home/decio/server-nfs/check_services.sh`
+- Use o comando `grep CRON /var/log/cron` para verificar manualmente se o **cron** está executando o script a cada 5 minutos. 
 
 
+### Analisar os arquivos de saída
 
+- Executar o script manualmente com `./check_services.sh`
+	-  esse comando executará o script e irá atualizar os arquivos de log no diretório `/home/decio/server-nfs/` 
+- Abrir o diretório com os arquivos de log usando `ls -l /home/decio/server-nfs/`
+- verificar o conteúdo dos arquivos usando:
 
+ ```bash
+	cat /home/decio/server-nfs/nfs-server_online.log
+	cat /home/decio/server-nfs/httpd_online.log
+```
 
 
 
